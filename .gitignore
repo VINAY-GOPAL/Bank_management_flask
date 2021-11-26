@@ -1,0 +1,6 @@
+# created by virtualenv automatically
+
+/Bank_management_flask/Lib
+/Bank_management_flask/Scripts
+/Bank_management_flask/.gitignore
+/Bank_management_flask/pyvenv.cfg
