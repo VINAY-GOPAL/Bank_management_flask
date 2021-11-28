@@ -18,20 +18,39 @@ records=db.register
 
 
 
+'''
+Description: Displays home page
 
+Params: none
+
+Return: returns base.html
+'''
 @app.route('/home',methods =['GET','POST'] )
 def home():
     return render_template("base.html")
 
+'''
+Description: Used to logout the user
+
+Params: id
+
+Return: redirects to login.html
+'''
 @app.route('/logout',methods =['GET','POST'] )
 def logout_out():
     form = login()
     session['id']=False
     return redirect(url_for('login_enter'))
 
+'''
+Description: Used to login into the user account
 
+Params: username,password
+
+Return: returns login.html
+'''
 @app.route('/', methods =['GET','POST'] )
-def login_enter():
+def login():
     form = login()
     username  =form.username.data
     password = form.password.data
@@ -44,7 +63,13 @@ def login_enter():
     return render_template("login.html",form = form)
 
 #-------------------------------------Customer Management --------------------------------
+'''
+Description: To create new user account
 
+Params: ustomer_name,age,address,state,city
+
+Return: returns customer_screen.html
+'''
 @app.route('/createcustomer', methods=['GET','POST'])
 
 def customer():
@@ -69,10 +94,24 @@ def customer():
     return render_template("customer_screen.html",form=form)
 
 
+'''
+Description: Displays the customer profile
+
+Params: none
+
+Return: returns profile.html
+'''
 @app.route('/profiles')
 def pro():
     return render_template("profile.html")
 
+'''
+Description: To update the user details
+
+Params: customer_ssn_id,new_customer_name,new_address,ew_age
+
+Return: returns update_customer.html
+'''
 @app.route('/update', methods=['GET','POST'])
 def update_customer():
     l=[]
@@ -94,6 +133,14 @@ def update_customer():
             flash("Customer with the given SSN_ID does not exists",'danger')
     return render_template('update_customer.html',form = form, ssn_id = temp)
 
+
+'''
+Description: Deletes the user account
+
+Params: ssn_id,customer_name,age,address
+
+Return: returns delete_customer.html
+'''
 @app.route('/deletecustomer',methods=['GET','POST'])
 def delete_customer():
         form = deleteCustomer()
@@ -117,24 +164,15 @@ def delete_customer():
         return render_template('delete_customer.html',form=form)
 
 #-----------------------------------------------------------------------------------------
-#----------------------------------------------status Details ----------------------------
-@app.route('/customerstaus',methods=['GET','POST'])
-def customer_status():
-    form=customerStatusSearch()
-    query= form.search_query.data
-    accs = Customer_Account.objects(ssn_id=query)
-    return render_template('customer_status.html',form=form,accs = accs)
-
-@app.route('/accountstatus',methods=['GET','POST'])
-def account_status():
-    form = accountStatusSearch()
-    query= form.search_query.data
-    acc =Customer_Account.objects(ssn_id=query) 
-    return render_template('account_status.html',form = form,acc=acc)
-
-#--------------------------------------------------------------------------------------------------
-
 #----------------------------------------------Account Management--------------------------------
+
+'''
+Description: Create new user account
+
+Params: customer_id
+
+Return: returns create_account.html
+'''
 @app.route('/createaccount',methods=['GET','POST'])
 def create_account():
     form =createaccount()
@@ -158,7 +196,13 @@ def create_account():
             flash("Customer with the given SSN_ID does not exists",'danger')
     return render_template('create_account.html',form=form )
 
+'''
+Description: Deletes user account
 
+Params: account_id
+
+Return: returns base.html
+'''
 @app.route('/deleteaccount', methods=['GET','POST'])
 def delete_account():
     form = deleteAccount()
@@ -181,14 +225,27 @@ def delete_account():
 
 #---------------------------------------------------------------------------------------------------------
 #------------------------------------------ Account Operations ------------------------------------------
+'''
+Description: Displays transaction history
 
+Params: customer_ssn_id
+
+Return: returns account_summary.html
+'''
 @app.route('/transaction_history',methods =['GET','POST'] )
-def transaction_history():
-    form = transaction_history()
+def balance():
+    form = balance()
     query= form.search_query.data
     acc =Transactions.objects(name=query)
     return render_template("account_summary.html",form = form,acc=acc)
 
+'''
+Description: To credit the amount
+
+Params: customer_id,deposit_amount
+
+Return: returns deposit_money.html
+'''
 @app.route('/credit', methods = ['GET','POST'])
 def credit():
     form = credit()
@@ -229,7 +286,13 @@ def credit():
     return render_template('deposit_money.html',form = form, data = [bal])
 
 
+'''
+Description: To debit the amount
 
+Params: customer_id,withdraw_amount,account_id
+
+Return: returns withdraw_money.html
+'''
 @app.route('/debit', methods = ['GET','POST'])
 def debit():
     form = debit()
