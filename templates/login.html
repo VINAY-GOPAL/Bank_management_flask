@@ -9,12 +9,12 @@
   background-size: cover;">
     {% block content %}
     <center>
-      <p>TO LOGIN</p>
+      <!--<p>TO LOGIN</p>
       <p>Username  :  V Bank</p>
-      <p>Password  :  V Bank</p>
+      <p>Password  :  V Bank</p>-->
    <form class="pure-form pure-form-aligned" method="POST">
     <fieldset style="position: center">
-      <h1 style="color: black;padding-top: 100px;"><center> Login</center></h1>
+      <h1 style="color: rgb(243, 7, 7);padding-top: 100px;"><center> Login</center></h1>
     <div class="pure-control-group">
 
       {{form.hidden_tag()}}
@@ -23,12 +23,12 @@
             <span class="error-message">{{ error }}</span>
            {% endfor %}
          </p>
-          <p style="color: black;">{{form.password.label}} {{form.password()}} 
+          <p style="color: rgb(4, 252, 4);">{{form.password.label}} {{form.password()}} 
             {% for error in form.password.errors %}
             <span class="error-message">{{ error }}</span>
            {% endfor %}
          </p>
-           <p style="color: black;"> {{ form.submit() }} 
+           <p style="color: rgb(68, 2, 250);"> {{ form.submit() }} 
          
         </div>
        
