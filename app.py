@@ -182,16 +182,16 @@ def delete_account():
 #---------------------------------------------------------------------------------------------------------
 #------------------------------------------ Account Operations ------------------------------------------
 
-@app.route('/accountsummary',methods =['GET','POST'] )
-def account_summary():
-    form = accountSum()
+@app.route('/transaction_history',methods =['GET','POST'] )
+def transaction_history():
+    form = transaction_history()
     query= form.search_query.data
     acc =Transactions.objects(name=query)
     return render_template("account_summary.html",form = form,acc=acc)
 
-@app.route('/depositmoney', methods = ['GET','POST'])
-def deposit_money():
-    form = depositMoney()
+@app.route('/credit', methods = ['GET','POST'])
+def credit():
+    form = credit()
     bal = 0 
     customer_ssn_id = form.customer_id.data
     account_id = form.account_id.data
@@ -229,47 +229,10 @@ def deposit_money():
     return render_template('deposit_money.html',form = form, data = [bal])
 
 
-@app.route('/transfermoney', methods = ['GET','POST'])
-def transfer_money():
-    form = transferMoney()
-    customer_ssn_id = form.customer_id.data
-    source_account_type = form.source_account_type.data
-    target_account_type = form.target_account_type.data
-    transfer_amount = form.transfer_amount.data 
-    if form.validate_on_submit():
-        if Customer_Account.objects(ssn_id = customer_ssn_id):
-            user = Customer_Account.objects(ssn_id = customer_ssn_id).first()
 
-            if (source_account_type == "savings" or source_account_type == "s") and user.s_m >= transfer_amount and source_account_type!=target_account_type :
-                if Customer_Account.objects(ssn_id = customer_ssn_id ).first():
-                    us = Customer_Account.objects(ssn_id = customer_ssn_id ).first()
-                    Customer_Account.objects(ssn_id = customer_ssn_id ).update(s_m = us.s_m-transfer_amount, c_m = us.c_m+transfer_amount, message = "Money Sucessfully Transfered From Savings Account To Current Account" ,datetime =  str(dt.now()))
-                    id_no = Transactions.objects().count()+1
-                    Transactions(id_no = id_no , description = "Transfer",name = customer_ssn_id,datetime = str(dt.now()), amount = transfer_amount  ).save()
-                    flash("Money Transfered Successfully From Savings Account to Current Account",'success')
-            elif (source_account_type == "current"  or source_account_type == "c" )and user.c_m >= transfer_amount  and source_account_type!=target_account_type  :
-                if Customer_Account.objects(ssn_id = customer_ssn_id ).first():
-                    us = Customer_Account.objects(ssn_id = customer_ssn_id ).first()
-                    Customer_Account.objects(ssn_id = customer_ssn_id ).update(s_m = us.s_m+transfer_amount, c_m = us.c_m-transfer_amount, message = "Money Sucessfully Transfered From Current Account To Savings Account" ,datetime = str(dt.now()))
-                    id_no = Transactions.objects().count()+1
-                    Transactions(id_no = id_no , description = "Transfer",name = customer_ssn_id,datetime = str(dt.now()), amount = transfer_amount  ).save() 
-                    flash("Money Transfered Successfully From Current Account to Savings Account",'success')
-            elif  (source_account_type == "savings" or source_account_type == "s") and user.s_m < transfer_amount :
-                flash("You dont have sufficient balance in your Savings account",'danger')
-            elif (source_account_type == "current"  or source_account_type == "c" )and user.c_m < transfer_amount:
-                flash("You dont have sufficient balance in your Current account",'danger')
-            elif (source_account_type==target_account_type):
-                flash("Source Account Type and Target Account Type should not be the same",'danger')
-        else:
-            flash("Customer ID dosen't  match with Account ID","danger")  
-        
-               
-    return render_template('transfer_money.html',form = form,)
-
-
-@app.route('/withdrawmoney', methods = ['GET','POST'])
-def withdraw_money():
-    form = withdrawMoney()
+@app.route('/debit', methods = ['GET','POST'])
+def debit():
+    form = debit()
     customer_ssn_id = form.customer_id.data
     account_id = form.account_id.data
     account_type = form.account_type.data

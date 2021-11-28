@@ -39,14 +39,9 @@ class deleteCustomer(FlaskForm):
     
 #__________________________________Account Operations___________________________________________
 
-class transferMoney(FlaskForm):
-    customer_id =StringField("Customer SSN ID",validators=[DataRequired(),Length(min=9,max=9)],render_kw={"placeholder":"SSN ID"})
-    source_account_type = StringField("Source Account Type",validators=[DataRequired()])
-    target_account_type = StringField("Target Account Type",validators=[DataRequired()])
-    transfer_amount = IntegerField("Tranfers Amount", validators=[DataRequired()])
-    submit=SubmitField("Transfer")
 
-class withdrawMoney(FlaskForm):
+
+class debit(FlaskForm):
     customer_id =StringField("Customer SSN ID",validators=[DataRequired(),Length(min=9,max=9)],render_kw={"placeholder":"SSN ID"})
     account_id = StringField("Account ID",validators=[DataRequired(),Length(min=9,max=9)],render_kw={"placeholder":"SSN ID"})
     account_type = StringField("Account Type",validators=[DataRequired()])
@@ -54,7 +49,7 @@ class withdrawMoney(FlaskForm):
     submit=SubmitField("Submit")
 
 
-class depositMoney(FlaskForm):
+class credit(FlaskForm):
     customer_id = StringField("Customer SSN ID",validators=[DataRequired(),Length(min=9,max=9)],render_kw={"placeholder":"SSN ID"})
     account_id = StringField("Account ID",validators=[DataRequired(),Length(min=9,max=9)],render_kw={"placeholder":"SSN ID"})
     account_type = StringField("Account Type",validators=[DataRequired()])
@@ -79,7 +74,7 @@ class deleteAccount(FlaskForm):
 
 
 
-class accountSum(FlaskForm):
+class transaction_history(FlaskForm):
     search_query = StringField("Customer SSN_ID", validators=[DataRequired()],render_kw={"placeholder":"SSN ID"})
     search = SubmitField("Search")
 
