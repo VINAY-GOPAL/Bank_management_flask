@@ -1,20 +1,20 @@
 from logging import debug
 from flask import ( Flask,g,redirect,render_template,request,session,url_for,session,flash)
 from datetime import datetime as dt
-from flask_mysqldb import MySQL
 from form import (customerScreen, updateCustomer, deleteCustomer,withdrawMoney,createaccount,deleteAccount,depositMoney,customerStatusSearch,accountStatusSearch,accountSum,login,transferMoney)
-from flask_mongoengine import MongoEngine
-from config import Config
+import pymongo
 import sys
 from Bmodel import Customer_Account,Transactions
 #from Bmodel import Customer_Account
 
 
 app = Flask(__name__)
-app.config.from_object(Config)
+client = pymongo.MongoClient("mongodb+srv://vinaygopal:vinaygopal@cluster0.eqa32.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+db=client.get_database("customers")
+records=db.register
 
-db = MongoEngine()
-db.init_app(app)
+# db = MongoEngine()
+# db.init_app(app)
 
 
 
