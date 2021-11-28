@@ -74,7 +74,7 @@ class deleteAccount(FlaskForm):
 
 
 
-class transaction_history(FlaskForm):
+class balance(FlaskForm):
     search_query = StringField("Customer SSN_ID", validators=[DataRequired()],render_kw={"placeholder":"SSN ID"})
     search = SubmitField("Search")
 
